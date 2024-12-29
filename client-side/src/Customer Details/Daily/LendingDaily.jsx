@@ -37,9 +37,9 @@ function LendingDaily() {
         fetchCustomer();
     }, []);
 
-    const handlePaymentChange = (index, value) => {
+    const handlePaymentChange = (overallIndex, value) => {
         const updatedCustomer = [...customer];
-        updatedCustomer[index].payment = parseFloat(value) || 0;
+        updatedCustomer[overallIndex].payment = parseFloat(value) || 0;
         setCustomer(updatedCustomer);
     };
 
@@ -51,14 +51,12 @@ function LendingDaily() {
             }));
 
             for (const paymentData of paymentsToSave) {
-                if (paymentData.payment > 0) {
-                    await savePayments(paymentData.customer_id, paymentData.payment);
+                await savePayments(paymentData.customer_id, paymentData.payment);
 
-                    const index = customer.findIndex(c => c.customer_id === paymentData.customer_id);
-                    if (index !== -1) {
-                        customer[index].disabled = true;
-                        customer[index].last_payment_time = new Date().toISOString();
-                    }
+                const index = customer.findIndex(c => c.customer_id === paymentData.customer_id);
+                if (index !== -1) {
+                    customer[index].disabled = true;
+                    customer[index].last_payment_time = new Date().toISOString();
                 }
             }
 
@@ -72,25 +70,31 @@ function LendingDaily() {
 
     const calculateTotal = (rows) => rows.reduce((total, row) => total + (parseFloat(row.payment) || 0), 0);
 
-    const renderTableRows = (rows, startIndex) =>
-        rows.map((row, index) => (
-            <tr key={row.account_no}>
-                <td className="td-daily" onClick={() => navigate(`/dashboard/customer/monthly/${row.customer_id}`)}>{row.account_no}</td>
-                <td>{row.name}</td>
-                <td>
-                    <input
-                        type="number"
-                        value={row.payment}
-                        onChange={(e) => handlePaymentChange(startIndex + index, e.target.value)}
-                        disabled={row.disabled}
-                        className="payment-input"
-                    />
-                </td>
-            </tr>
-        ));
+    const renderTableRows = (rows, startIndex) => {
+        const fixedRows = Array(50).fill(null).map((_, idx) => rows[idx] || { account_no: "", name: "", payment: 0, disabled: true });
+
+        return fixedRows.map((row, index) => {
+            const overallIndex = startIndex + index;
+            return (
+                <tr key={overallIndex}>
+                    <td className="td-daily" onClick={() => navigate(`/dashboard/customer/monthly/${row.customer_id}`)}>{row.account_no}</td>
+                    <td>{row.name}</td>
+                    <td>
+                        <input
+                            type="number"
+                            value={row.payment}
+                            onChange={(e) => handlePaymentChange(overallIndex, e.target.value)}
+                            disabled={row.disabled}
+                            className="payment-input"
+                        />
+                    </td>
+                </tr>
+            );
+        });
+    };
 
     const firstTableRows = customer.slice(0, 50);
-    const secondTableRows = customer.slice(50, 100);
+    const secondTableRows = customer.slice(50, 100); 
     const thirdTableRows = customer.slice(100, 150);
 
     const firstTableTotal = calculateTotal(firstTableRows);
@@ -98,8 +102,7 @@ function LendingDaily() {
     const thirdTableTotal = calculateTotal(thirdTableRows);
     const overallTotal = firstTableTotal + secondTableTotal + thirdTableTotal;
 
-    const isButtonDisabled = customer.every(cust => cust.disabled) || 
-                             customer.every(cust => cust.payment === 0);
+    const isButtonDisabled = customer.every(cust => cust.disabled);
 
     return (
         <div className="receipt-container-daily">
@@ -146,7 +149,7 @@ function LendingDaily() {
                 onClick={handleSavePayments}
                 className="add-button-daily"
                 disabled={isButtonDisabled}
-                title={isButtonDisabled ? "No payments to save or all inputs are disabled" : ""}
+                title={isButtonDisabled ? "All inputs are disabled" : ""}
             >
                 Save All Payments
             </button>

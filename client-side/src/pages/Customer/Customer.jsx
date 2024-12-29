@@ -176,7 +176,7 @@ function Customer() {
                 setShowMessageModal(true)
             } else {
                 await registerCustomer(customerData);
-                setSuccess('Rider added successfully');
+                setSuccess('Customer added successfully');
                 setShowMessageModal(true)
             }
             setShowAddModal(false);
