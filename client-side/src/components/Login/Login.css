@@ -1,0 +1,104 @@
+.login-page {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    width: 96rem;
+}
+
+.login-container {
+    background-color: #ccc;
+    padding: 1.875rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.5);
+    width: 30rem;
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+h2 {
+    color: #1a1a1a; 
+    text-align: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.8rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  color: #1a1a1a;
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.3125rem;
+}
+
+.input-group input {
+  width: 95%;
+  padding: 0.5rem; 
+  background-color: #fff;
+  border: 0.125rem solid #fff;
+  border-radius: 0.4rem;
+  color: #1a1a1a;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #1a1a1a;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: #fff;
+  border: none;
+  border-radius: 0.9rem solid #1a1a1a; 
+  color: #1a1a1a; 
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:disabled {
+  background-color: #1a1a1a;
+  cursor: not-allowed;
+}
+
+.login-btn:hover:not(:disabled) {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.registration-link {
+  color: #1a1a1a; 
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.registration-link a{
+  color: #1a1a1a; 
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.registration-link a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #ff4d4d; 
+  text-align: center;
+  margin-top: 0.625rem;
+}
+
+.success {
+  color: #4dff4d; 
+  text-align: center;
+  margin-top: 0.625rem; 
+}

@@ -1,0 +1,62 @@
+.receipt-container-daily {
+  width: 93.5rem;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  height: 800px;
+  overflow-y: auto; 
+}
+
+.header-daily {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 2rem;
+}
+
+.header-daily h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header-daily h3 {
+  color: #1a1a1a;
+  margin: 2px 0;
+}
+
+.header-daily p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.tables-daily {
+  display: flex;
+  justify-content: center;
+}
+
+.payment-table-daily {
+  width: 250px;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.payment-table-daily th,
+.payment-table-daily td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 7px;
+}
+
+.payment-table-daily th {
+  background-color: #fff;
+}
+
+.payment-table-daily tr {
+  color: #1a1a1a;
+}
+
+.form-group-daily:last-child {
+  margin-right: 0;
+}
