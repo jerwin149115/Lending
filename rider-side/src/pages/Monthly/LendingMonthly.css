@@ -1,0 +1,74 @@
+.receipt-container {
+  width: 96rem;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.details {
+  font-size: 12px;
+  line-height: 0.4;
+  color: #1a1a1a;
+}
+
+.tables {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.payment-table {
+  width: 200px;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.payment-table th,
+.payment-table td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 5px;
+}
+
+.payment-table th {
+  background-color: #fff;
+}
+
+.payment-table tr {
+  color: #1a1a1a;
+}
+
+.form-row {
+  display: flex;
+  justify-content: center; 
+  align-items: left; 
+  color: #1a1a1a;
+  margin-left: 6.5rem;
+}
+
+.form-group {
+  flex: 1; 
+  max-width: 200px;
+  text-align: left;
+  font-size: 0.6rem;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}

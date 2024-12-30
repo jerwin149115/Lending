@@ -1,41 +1,64 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './LendingDaily.css';
-import { getCustomerDaily } from "../../api/CustomerAPI";
-import { savePayments } from "../../api/paymentsAPI";
+import { getCustomerDaily } from "../../api/CustomerApi";
+import { savePayments } from "../../api/paymentApi";
 
-function LendingDaily() {
+async function fetchUserDetails() {
+    try {
+        const response = await fetch("http://localhost:3000/api/rider", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+        if (!response.ok) throw new Error("Failed to fetch user details");
+        return await response.json();
+    } catch (error) {
+        console.error(`Error fetching user details: ${error.message}`);
+        throw error;
+    }
+}
+
+function LendingDaily({ setIsAuthenticated }) {
     const navigate = useNavigate();
-    const { name, lending_company } = useParams();
+    const [user, setUser] = useState(null);
     const [customer, setCustomer] = useState([]);
 
-    async function fetchCustomer() {
-        try {
-            const data = await getCustomerDaily(name, lending_company);
-
-            const initializedData = data.map(customer => {
-                const lastPaymentDate = new Date(customer.last_payment_time);
-                const today = new Date();
-
-                const isSameDay =
-                    lastPaymentDate.toDateString() === today.toDateString();
-
-                return {
-                    ...customer,
-                    payment: isSameDay ? customer.last_payment_amount || 0 : 0,
-                    disabled: isSameDay && today.getHours() < 24,
-                };
-            });
-
-            setCustomer(initializedData);
-        } catch (error) {
-            console.error(`Error fetching customers: ${error.message}`);
-        }
-    }
-
     useEffect(() => {
-        fetchCustomer();
+        async function initialize() {
+            try {
+                const userDetails = await fetchUserDetails();
+                setUser(userDetails);
+
+                const data = await getCustomerDaily(userDetails.area, userDetails.lending_company);
+                const initializedData = data.map(customer => {
+                    const lastPaymentDate = new Date(customer.last_payment_time);
+                    const today = new Date();
+
+                    const isSameDay =
+                        lastPaymentDate.toDateString() === today.toDateString();
+
+                    return {
+                        ...customer,
+                        payment: isSameDay ? customer.last_payment_amount || 0 : 0,
+                        disabled: isSameDay && today.getHours() < 24,
+                    };
+                });
+
+                setCustomer(initializedData);
+            } catch (error) {
+                console.error(`Error initializing data: ${error.message}`);
+            }
+        }
+
+        initialize();
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false); 
+        navigate('/login');
+    };
 
     const handlePaymentChange = (overallIndex, value) => {
         const updatedCustomer = [...customer];
@@ -47,7 +70,7 @@ function LendingDaily() {
         try {
             const paymentsToSave = customer.map(cust => ({
                 customer_id: cust.customer_id,
-                payment: cust.payment || 0,
+                payment: cust.payment,
             }));
 
             for (const paymentData of paymentsToSave) {
@@ -77,7 +100,7 @@ function LendingDaily() {
             const overallIndex = startIndex + index;
             return (
                 <tr key={overallIndex}>
-                    <td className="td-daily" onClick={() => navigate(`/dashboard/customer/monthly/${row.customer_id}`)}>{row.account_no}</td>
+                    <td className="td-daily" onClick={() => navigate(`/dashboard/monthly/${row.customer_id}`)}>{row.account_no}</td>
                     <td>{row.name}</td>
                     <td>
                         <input
@@ -104,13 +127,15 @@ function LendingDaily() {
 
     const isButtonDisabled = customer.every(cust => cust.disabled);
 
+    if (!user) return <p>Loading...</p>; 
+
     return (
         <div className="receipt-container-daily">
             <div className="header-daily">
-                <h2>{lending_company}</h2>
+                <h2>{user.lending_company}</h2>
                 <h3>DAILY LENDING</h3>
                 <p>San Jose Gusu, Zamboanga City</p>
-                <h2>{name}</h2>
+                <h2>{user.area}</h2>
             </div>
             <div className="overall-total">
                 <p><strong>Overall Total:</strong> {overallTotal.toFixed(2)}</p>
@@ -152,6 +177,12 @@ function LendingDaily() {
                 title={isButtonDisabled ? "All inputs are disabled" : ""}
             >
                 Save All Payments
+            </button>
+            <button
+                onClick={handleLogout}
+                className="add-button-daily"
+            >
+                Logout
             </button>
         </div>
     );

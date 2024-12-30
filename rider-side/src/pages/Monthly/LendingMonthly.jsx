@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import './LendingMonthly.css';
-import { getCustomerById } from "../../api/CustomerAPI";
+import { getCustomerById } from "../../api/CustomerApi";
 
 function LendingMonthly() {
     const { customer_id } = useParams();

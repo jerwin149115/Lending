@@ -61,6 +61,40 @@ app.post('/api/login/admin', (req, res) => {
     })
 })
 
+app.post('/api/login/rider', (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: 'username and password are required'});
+    }
+
+    const loginQuery = `SELECT * FROM rider_user WHERE username = ?`;
+    db.query(loginQuery, [username], async (error, results) => {
+        if (error) {
+            console.error('Error in fetching the user:', error.message);
+            return res.status(500).json({ error: 'Database Error'});
+        }
+
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Invalid username or password!'})
+        }
+
+        const user = results[0];
+        try {
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: 'Invalid username or password'})
+            }
+
+            const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY,);
+            res.json({ message: 'Login Successfully!', token});
+        } catch (error) {
+            console.error('Error during password comparison: ', error.message);
+            res.status(500).json({ error: 'Server Error'})
+        }
+    })
+})
+
 app.post('/api/register/admin', async (req, res) => {
     const { username, password } = req.body;
 
@@ -97,6 +131,37 @@ app.post('/api/register/admin', async (req, res) => {
 })
 
 //Riders
+app.get('/api/rider', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ error: 'Authorization header missing' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+
+        const userUsername = decoded.username;
+        const query = `SELECT area, lending_company FROM rider_user WHERE username = ?`;
+
+        db.query(query, [userUsername], (error, results) => {
+            if (error) {
+                console.error('Database error:', error.message);
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            const user = results[0];
+            res.json({ area: user.area, lending_company: user.lending_company });
+        });
+    });
+});
+
 app.post('/api/register/riders', async (req, res) => {
     const { username, password, lending_company, area } = req.body;
 
@@ -477,10 +542,6 @@ app.delete('/api/area/delete/:id', async (req, res) => {
 app.post('/api/payment/multiple/:customer_id', (req, res) => {
     const { customer_id } = req.params;
     const { payment } = req.body;
-
-    if (!payment || payment <= 0) {
-        return res.status(400).json({ error: 'Invalid payment amount' });
-    }
 
     const paymentQuery = `
         INSERT INTO payments (payment, payment_date, customer_id)
