@@ -33,7 +33,7 @@ function Login({ setIsAuthenticated }) {
           <div className="login-container">
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                <div className="input-group">
+                <div className="input-group-login">
                     <label>Username:</label>
                     <input
                         type="text"
@@ -42,7 +42,7 @@ function Login({ setIsAuthenticated }) {
                         required
                     />
                 </div>
-                <div className="input-group">
+                <div className="input-group-login">
                     <label>Password:</label>
                     <input
                         type="password"

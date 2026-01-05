@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
-import { register, getRiders, updateRiders, deleteRider } from "../../api/RidersAPI";
-import './Riders.css';
+import {
+    register,
+    getRiders,
+    updateRiders,
+    deleteRider
+} from "../../api/RidersAPI";
+import "./Riders.css";
 import { getCompany } from "../../api/CompanyAPI";
 import { getAreaByCompany } from "../../api/AreaAPI";
 
@@ -8,21 +13,27 @@ function Riders() {
     const [records, setRecords] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
-    const [selectedRiderId, setSelectedRiderId] = useState(null);
-    const [selectedRider, setSelectedRider] = useState(null);
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showMessageModal, setShowMessageModal] = useState(false);
-    const [optionArea, setOptionArea] = useState([]);
+
+    const [selectedRider, setSelectedRider] = useState(null);
+    const [selectedRiderId, setSelectedRiderId] = useState(null);
+
     const [optionCompany, setOptionCompany] = useState([]);
+    const [optionArea, setOptionArea] = useState([]);
     const [filteredAreas, setFilteredAreas] = useState([]);
+
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+
     const [newRider, setNewRider] = useState({
-        username: '',
-        password: '',
-        area: '',
-        lending_company: '',
+        username: "",
+        password: "",
+        area: "",
+        lending_company: "",
     });
+
+    /* ================= FETCH DATA ================= */
 
     useEffect(() => {
         fetchCompany();
@@ -35,16 +46,16 @@ function Riders() {
             const data = await getCompany();
             setOptionCompany(data);
         } catch {
-            setError('Error fetching companies.');
+            setError("Failed to fetch companies");
         }
     };
 
     const fetchArea = async () => {
         try {
             const data = await getAreaByCompany();
-            setOptionArea(data);
+            setOptionArea(data?.data || data || []);
         } catch {
-            setError('Error fetching areas.');
+            setError("Failed to fetch areas");
         }
     };
 
@@ -52,106 +63,109 @@ function Riders() {
         try {
             const data = await getRiders();
             setRecords(data);
-        } catch (error) {
-            setError(`Failed to fetch riders: ${error.message}`);
+        } catch (err) {
+            setError(err.message);
         }
     };
 
-    function handleCompanyChange(event) {
-        const selectedCompany = event.target.value;
-        setNewRider({ ...newRider, lending_company: selectedCompany, area: '' });
+    /* ================= HANDLERS ================= */
 
-        if (!selectedCompany) {
-            setFilteredAreas([]);
-            return;
-        }
+    const handleCompanyChange = (e) => {
+        const companyName =
+            e.target.options[e.target.selectedIndex].text;
 
-        const filtered = optionArea?.data?.filter(area => area.lending_company === selectedCompany) || [];
+        setNewRider(prev => ({
+            ...prev,
+            lending_company: companyName,
+            area: ""
+        }));
+
+        const filtered = optionArea.filter(
+            area => area.lending_company === companyName
+        );
+
         setFilteredAreas(filtered);
+    };
 
-        if (filtered.length === 0) {
-            setError('No areas available for the selected company.');
-        } else {
-            setError(null);
-        }
-    }
+    const handleAreaChange = (e) => {
+        setNewRider(prev => ({
+            ...prev,
+            area: e.target.value
+        }));
+    };
 
-    function handleAreaChange(event) {
-        const selectedArea = event.target.value;
-        setNewRider((prev) => ({ ...prev, area: selectedArea }));
-    }
+    const handleAddOrUpdateRider = async (e) => {
+        e.preventDefault();
 
-    const handleAddOrUpdateRider = async (event) => {
-        event.preventDefault();
         const riderData = {
             username: newRider.username,
-            password: newRider.password,
             area: newRider.area,
             lending_company: newRider.lending_company,
         };
 
+        if (!isEditing) {
+            riderData.password = newRider.password;
+        }
+
         try {
             if (isEditing) {
                 await updateRiders(selectedRider.rider_id, riderData);
-                setSuccess('Rider updated successfully.');
+                setSuccess("Rider updated successfully!");
             } else {
                 await register(riderData);
-                setSuccess('Rider added successfully.');
+                setSuccess("Rider added successfully!");
             }
+
             fetchRiders();
-            resetRiderForm();
+            resetForm();
             setShowAddModal(false);
-        } catch (error) {
-            setError(`Error: ${error.message}`);
-        }
-    };
-
-    const resetRiderForm = () => {
-        setNewRider({
-            username: '',
-            password: '',
-            area: '',
-            lending_company: '',
-        });
-        setSelectedRider(null);
-        setIsEditing(false);
-    };
-
-    async function handleDelete() {
-        try {
-            if (selectedRiderId) {
-                await deleteRider(selectedRiderId);
-                setRecords((prevRecords) => prevRecords.filter((company) => company.company_id !== selectedRiderId));
-                setSuccess('Company deleted successfully!');
-                fetchRiders();
-            } 
-        } catch (error) {
-            setError(`Error in deleting the company: ${error.message}`);
-        } finally {
-            setShowDeleteModal(false)
+            setShowMessageModal(true);
+        } catch (err) {
+            setError(err.message);
             setShowMessageModal(true);
         }
-    }
+    };
 
-    function handleCloseModal() {
-        setShowMessageModal(false);
+    const handleDelete = async () => {
+        try {
+            await deleteRider(selectedRiderId);
+            setSuccess("Rider deleted successfully!");
+            fetchRiders();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setShowDeleteModal(false);
+            setShowMessageModal(true);
+        }
+    };
+
+    const resetForm = () => {
+        setNewRider({
+            username: "",
+            password: "",
+            area: "",
+            lending_company: "",
+        });
+        setFilteredAreas([]);
+        setIsEditing(false);
+        setSelectedRider(null);
+    };
+
+    const closeMessageModal = () => {
         setError(null);
         setSuccess(null);
-    }
+        setShowMessageModal(false);
+    };
+
+    /* ================= RENDER ================= */
 
     return (
         <div className="table-container">
-            <div className="text-end-rider mb-3">
-                <input
-                    type="text"
-                    onChange={(e) => setIsEditing(e.target.value)}
-                    className="search-function"
-                    placeholder="Search by name"
-                />
+            <div className="text-end-rider">
                 <button
                     className="add-button"
                     onClick={() => {
-                        resetRiderForm();
+                        resetForm();
                         setShowAddModal(true);
                     }}
                 >
@@ -162,35 +176,55 @@ function Riders() {
             <table className="custom-table">
                 <thead>
                     <tr>
-                        <th>Rider ID</th>
-                        <th>Rider Username</th>
-                        <th>Rider Area</th>
-                        <th>Lending Company</th>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Area</th>
+                        <th>Company</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {records.map((item) => (
+                    {records.map(item => (
                         <tr key={item.rider_id}>
                             <td>{item.rider_id}</td>
                             <td>{item.username}</td>
                             <td>{item.area}</td>
                             <td>{item.lending_company}</td>
                             <td>
-                                <button className="action-button-rider" onClick={() => {
-                                    setSelectedRider(item);
-                                    setIsEditing(true);
-                                    setShowAddModal(true);
-                                    setNewRider({
-                                        username: item.username,
-                                        password: item.password,
-                                        area: item.area,
-                                        lending_company: item.lending_company,
-                                    });
-                                }}>
+                                <button
+                                    className="action-button-rider"
+                                    onClick={() => {
+                                        setIsEditing(true);
+                                        setSelectedRider(item);
+
+                                        setNewRider({
+                                            username: item.username,
+                                            password: "",
+                                            area: item.area,
+                                            lending_company: item.lending_company,
+                                        });
+
+                                        setFilteredAreas(
+                                            optionArea.filter(
+                                                area =>
+                                                    area.lending_company ===
+                                                    item.lending_company
+                                            )
+                                        );
+
+                                        setShowAddModal(true);
+                                    }}
+                                >
                                     Edit
                                 </button>
-                                <button className="action-button-rider" onClick={() => {setSelectedRiderId(item.rider_id); setShowDeleteModal(true);}}>
+
+                                <button
+                                    className="action-button-rider"
+                                    onClick={() => {
+                                        setSelectedRiderId(item.rider_id);
+                                        setShowDeleteModal(true);
+                                    }}
+                                >
                                     Delete
                                 </button>
                             </td>
@@ -199,76 +233,118 @@ function Riders() {
                 </tbody>
             </table>
 
+            {/* ADD / EDIT MODAL */}
             {showAddModal && (
                 <div className="custom-modal-overlay-rider">
                     <div className="custom-modal-rider">
-                        <h5>{isEditing ? 'Edit Rider' : 'Add Rider'}</h5>
+                        <h4>{isEditing ? "Edit Rider" : "Add Rider"}</h4>
+
                         <form onSubmit={handleAddOrUpdateRider}>
                             <input
                                 type="text"
+                                placeholder="Username"
                                 value={newRider.username}
-                                onChange={(e) => setNewRider((prev) => ({ ...prev, username: e.target.value }))}
-                                placeholder="Rider Username"
+                                onChange={(e) =>
+                                    setNewRider(prev => ({
+                                        ...prev,
+                                        username: e.target.value
+                                    }))
+                                }
                                 required
                             />
+
                             <input
                                 type="password"
+                                placeholder="Password"
                                 value={newRider.password}
-                                onChange={(e) => setNewRider((prev) => ({ ...prev, password: e.target.value }))}
-                                placeholder="Rider Password"
+                                onChange={(e) =>
+                                    setNewRider(prev => ({
+                                        ...prev,
+                                        password: e.target.value
+                                    }))
+                                }
                                 required={!isEditing}
                                 disabled={isEditing}
                             />
+
                             <select
                                 value={newRider.lending_company}
                                 onChange={handleCompanyChange}
                                 required
                             >
                                 <option value="">Select Company</option>
-                                {optionCompany.map((company) => (
-                                    <option key={company.id} value={company.name}>
+                                {optionCompany.map(company => (
+                                    <option key={company.company_id}>
                                         {company.name}
                                     </option>
                                 ))}
                             </select>
+
                             <select
                                 value={newRider.area}
                                 onChange={handleAreaChange}
                                 required
                             >
-                                <option value="">Select an Area</option>
-                                {filteredAreas.map((area) => (
-                                    <option key={area.area_id} value={area.name}>
+                                <option value="">Select Area</option>
+                                {filteredAreas.map(area => (
+                                    <option
+                                        key={area.area_id}
+                                        value={area.name}
+                                    >
                                         {area.name}
                                     </option>
                                 ))}
                             </select>
-                            <button className="btn-action-rider" type="submit">{isEditing ? 'Update' : 'Save'}</button>
-                            <button className="btn-action-rider" type="button" onClick={() => setShowAddModal(false)}>
+
+                            <button type="submit" className="btn-action-rider">
+                                {isEditing ? "Update" : "Save"}
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn-action-rider"
+                                onClick={() => setShowAddModal(false)}
+                            >
                                 Cancel
                             </button>
                         </form>
                     </div>
                 </div>
             )}
-            { showDeleteModal && (
+
+            {/* DELETE MODAL */}
+            {showDeleteModal && (
                 <div className="custom-modal-overlay-rider">
                     <div className="custom-modal-rider">
-                        <h5 className="modal-title">Comfirm Delete</h5>
-                        <p>Area you sure you want to delete this Company?</p>
-                        <div className="modal-buttons">
-                            <button className="btn-action-rider" onClick={handleDelete}>Yes, Delete</button>
-                            <button className="btn-action-rider" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-                        </div>
+                        <p>Are you sure you want to delete this rider?</p>
+                        <button
+                            className="btn-action-rider"
+                            onClick={handleDelete}
+                        >
+                            Yes, Delete
+                        </button>
+                        <button
+                            className="btn-action-rider"
+                            onClick={() => setShowDeleteModal(false)}
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </div>
             )}
-            { showMessageModal && (success || error) && (
-                <div className='custom-modal-overlay-company'>
-                    <div className='custom-modal-company' aria-live="polite">
-                        { success && <p>{success}</p> }
-                        { error && <p>{error}</p> }
-                        <button onClick={handleCloseModal} className='btn-action-company'>X</button>
+
+            {/* MESSAGE MODAL */}
+            {showMessageModal && (
+                <div className="custom-modal-overlay-company">
+                    <div className="custom-modal-company">
+                        {success && <p>{success}</p>}
+                        {error && <p>{error}</p>}
+                        <button
+                            className="btn-action-company"
+                            onClick={closeMessageModal}
+                        >
+                            OK
+                        </button>
                     </div>
                 </div>
             )}

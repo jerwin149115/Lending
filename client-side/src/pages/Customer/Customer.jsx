@@ -55,6 +55,7 @@ function Customer() {
         try {
             const data = await getAreaByCompany();
             setOptionArea(data);
+            console.log(data);
         } catch (error) {
             setError('Error in fetching the areas');
             console.error('Error in fetching the area data', error);
@@ -72,7 +73,7 @@ function Customer() {
         setIsSearch(!!searchText);
         
         try {
-            const allCustomer = await getCustomer();
+            const allCustomer = await getCustomer(riderId);
             const filteredProducts = allCustomer.filter(customer => 
             Object.values(customer).some(value =>
                 String(value).toLowerCase().includes(searchText)
@@ -342,7 +343,7 @@ function Customer() {
                                                 <option value="">Select an Area</option>
                                                 {filteredAreas.map((area) => (
                                                     <option key={area.area_id}
-                                                    value={area.name}>
+                                                    value={area.area_id}>
                                                         {area.name}
                                                     </option>
                                                 ))}

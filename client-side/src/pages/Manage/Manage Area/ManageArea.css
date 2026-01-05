@@ -1,198 +1,423 @@
 body {
-    background-color: #fff;
+    background-color: #f5f7fa;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
 }
 
 .table-container-area {
-    padding: 1rem;
-    width: 93.9rem;
-    overflow-x: auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    height: 43rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-height: 600px;
 }
 
-.custom-table-area {
-    margin-top: 0.5rem;
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    table-layout: fixed;
-}
-
-.custom-table-area th, .custom-table-area td {
-    padding: 0.2rem 0.5rem;
-    border: 1px solid #ddd;
-}
-
-.custom-table-area th {
-    background-color: #0202a3c1;
-    color: #fff;
-    font-weight: bold;
-}
-
-.custom-table-area tr:hover {
-    background-color: #ddd;
-}
-
-.custom-table-area td {
-    color: #333;
-    font-size: 0.9rem;
-}
-
+/* Header Section */
 .text-end-area {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e8ecf1;
 }
 
-.add-button-area {
-    padding: 0.5rem 0.8rem;
-    background-color: #0000FF;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    margin-top: 5rem;
+.text-end-area h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
 }
 
-.add-button-area:hover {
-    background-color: #0202a3c1;
-}
-
+/* Search Bar */
 .search-function {
-    width: 20rem;
-    margin-top: 5rem;
-    padding: 0.2rem;
-    border: 0.2rem solid #0202a3c1;
-    box-sizing: border-box;
-    background-color: #fff;
-    color: #101010;
-    border-radius: 0.2rem;
+    width: 320px;
+    padding: 0.65rem 1rem;
+    padding-left: 2.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background-color: #f8fafc;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.75rem center;
+    color: #334155;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin: 0;
+}
+
+.search-function::placeholder {
+    color: #94a3b8;
 }
 
 .search-function:focus {
     outline: none;
-    border-color: #0202a3c1;
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.btn-add {
-    float: right;
-    margin: 0.3rem;
-    padding: 0.3rem;
-    width: 7rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
+/* Add Button */
+.add-button-area {
+    padding: 0.65rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
     cursor: pointer;
-}
-
-.btn-add:hover {
-    background-color: #0000FF;
-}
-
-.button-divs {
-    justify-content: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    margin: 0;
+    display: flex;
     align-items: center;
-    margin: 0 auto;
+    gap: 0.5rem;
+}
+
+.add-button-area:before {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.add-button-area:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+.add-button-area:active {
+    transform: translateY(0);
+}
+
+/* Table Styles */
+.custom-table-area {
+    margin-top: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    background-color: white;
+}
+
+.custom-table-area th {
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.custom-table-area th:first-child {
+    border-top-left-radius: 0.5rem;
+}
+
+.custom-table-area th:last-child {
+    border-top-right-radius: 0.5rem;
+}
+
+.custom-table-area td {
+    padding: 1rem 1.25rem;
+    color: #475569;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.custom-table-area tbody tr {
+    transition: all 0.2s ease;
+}
+
+.custom-table-area tbody tr:hover {
+    background-color: #f8fafc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.custom-table-area tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.5rem;
+}
+
+.custom-table-area tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Clickable ID Cell */
+.td-area {
+    color: #3b82f6;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.td-area:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* Action Buttons in Table */
+.button-divs-area {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
 }
 
 .action-button-area {
-    justify-content: center;
-    padding: 0.3rem;
-    margin: 0.2rem;
-    width: 4.5rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
+    padding: 0.45rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #475569;
     cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.action-button-area:hover {
-    background-color: #0000FF;
+.action-button-area:first-child {
+    color: #3b82f6;
+    border-color: #3b82f6;
 }
 
-.btn-action-area {
-    justify-content: center;
-    padding: 0.3rem;
-    margin: 0.2rem;
-    width: 4.5rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
-    cursor: pointer;
+.action-button-area:first-child:hover {
+    background-color: #3b82f6;
+    color: white;
 }
 
-.btn-action-area:hover {
-    background-color: #0000FF;
+.action-button-area:last-child {
+    color: #ef4444;
+    border-color: #ef4444;
 }
 
+.action-button-area:last-child:hover {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Empty State */
+.custom-table-area tbody tr td[colspan] {
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+/* Modal Styles */
 .custom-modal-overlay-area {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    color: #101010;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .custom-modal-area {
-    background-color: #ddd;
-    padding: 1.25rem;
-    border-radius: 0.2rem;
-    width: 30rem;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    width: 480px;
     max-width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease;
 }
 
-.custom-modal-area input[type="text"] {
-    max-width: 30rem;
-    width: 95%;
-    margin-bottom: 0.2rem;
-    background-color: #fff;
-    color: #101010;
-    padding: 0.7rem;
-    border-radius: 0.2rem;
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.button-action-area {
-    float: right;
-    margin: 0.3rem;
-    padding: 0.3rem;
-    width: 7rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
-    cursor: pointer;
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
 }
 
-.button-action-area:hover {
-    background-color: #0000FF;
+/* Form Elements in Modal */
+.custom-modal-area form .mb-3 {
+    margin-bottom: 1.25rem;
+}
+
+.custom-modal-area input[type="text"],
+.custom-modal-area select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background-color: #f8fafc;
+    color: #334155;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+}
+
+.custom-modal-area input[type="text"]:focus,
+.custom-modal-area select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.custom-modal-area input[type="text"]::placeholder {
+    color: #94a3b8;
 }
 
 .custom-modal-area select {
-    width: 100%;
-    max-width: 30rem;
-    padding: 0.7rem;
-    margin-right: 0.5rem;
-    border: 0.1rem solid #1a1a1a;
-    border-radius: 0.2rem;
-    background-color: #fff;
-    color: #2a2525b0;
-    font-size: 0.8rem;
     appearance: none;
-}
-
-.custom-modal-area select:focus {
-    outline: none;
-    border: 0.1rem solid #1a1a1a;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
 }
 
 .custom-modal-area select option {
-    color: #101010;
-    background-color: #fff;
+    color: #334155;
+    background-color: #ffffff;
 }
 
-.td-area:hover {
+/* Modal Buttons */
+.modal-buttons-area,
+.modal-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-action-area {
+    padding: 0.65rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-action-area[type="submit"] {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.btn-action-area[type="submit"]:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-action-area[type="button"],
+.modal-buttons .btn-action-area:last-child {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-action-area[type="button"]:hover,
+.modal-buttons .btn-action-area:last-child:hover {
+    background-color: #e2e8f0;
+}
+
+/* Delete Confirmation Button */
+.modal-buttons .btn-action-area:first-child {
+    background-color: #ef4444;
+    color: white;
+}
+
+.modal-buttons .btn-action-area:first-child:hover {
+    background-color: #dc2626;
+}
+
+/* Message Modal */
+.custom-modal-area p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.button-action-area {
+    padding: 0.65rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    float: right;
+    margin-top: 1rem;
+}
+
+.button-action-area:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table-container-area {
+        padding: 1rem;
+        border-radius: 0;
+    }
+
+    .text-end-area {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .search-function {
+        width: 100%;
+    }
+
+    .custom-modal-area {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .button-divs-area {
+        flex-direction: column;
+    }
+
+    .action-button-area {
+        width: 100%;
+    }
 }

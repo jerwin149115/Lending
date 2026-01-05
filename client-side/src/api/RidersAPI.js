@@ -3,7 +3,7 @@ const API_URL = `http://localhost:3000`
 export const register = async(userData) => {
 
     try {
-        const response = await fetch(`${API_URL}/api/register/riders`, {
+        const response = await fetch(`${API_URL}/api/register/rider`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export const getRidersByUsername = async (username = '') => {
 };
 
 export const getRiders = async() => {
-    const response = await fetch(`${API_URL}/api/get/riders`, {
+    const response = await fetch(`${API_URL}/api/get/all/rider`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const getRiders = async() => {
 
 export const updateRiders = async (riderId, riderData) => {
     try {
-        const response = await fetch(`${API_URL}/api/update/riders/${riderId}`, {
+        const response = await fetch(`${API_URL}/api/update/rider/${riderId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const deleteRider = async (riderId) => {
     }
 
     try {
-        const response = await fetch(`${API_URL}/api/delete/riders/${riderId}`, {
+        const response = await fetch(`${API_URL}/api/delete/rider/${riderId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

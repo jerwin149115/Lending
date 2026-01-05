@@ -23,7 +23,6 @@ export const getArea = async() => {
 
 export const getAreaByCompany = async (company = '') => {
     try {
-        // Build the URL with the company parameter if provided
         const url = company 
             ? `${API_URL}/api/area/get/company?company=${encodeURIComponent(company)}` 
             : `${API_URL}/api/area/get/company`;

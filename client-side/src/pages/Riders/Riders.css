@@ -1,185 +1,510 @@
 body {
-    background-color: #fff;
+    background-color: #f5f7fa;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
 }
 
 .table-container {
-  padding: 1rem;
-  width: 93.9rem;
-  overflow-x: auto;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  height: 43rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-height: 600px;
 }
 
-.custom-table {
-    margin-top: 0.5rem;
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    table-layout: fixed;
-}
-
-.custom-table th, .custom-table td {
-    padding: 0.2rem 0.5rem;
-    border: 1px solid #ddd;
-}
-
-.custom-table th {
-    background-color: #0202a3c1;
-    color: #fff;
-    font-weight: bold;
-}
-
-.custom-table tr:hover {
-    background-color: #ddd;
-}
-
-.custom-table td {
-    color: #333;
-    font-size: 0.9rem;
-}
-
+/* Header Section */
 .text-end-rider {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e8ecf1;
 }
 
-.add-button {
-    padding: 0.5rem 0.8rem;
-    background-color: #0000FF;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    margin-top: 5rem;
+.text-end-rider h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
 }
 
-.add-button:hover {
-    background-color: #0202a3c1;
-}
-
+/* Search Bar */
 .search-function {
-    width: 20rem;
-    margin-top: 5rem;
-    padding: 0.2rem;
-    border: 0.2rem solid #0202a3c1;
-    box-sizing: border-box;
-    background-color: #fff;
-    color: #101010;
-    border-radius: 0.2rem;
+    width: 320px;
+    padding: 0.65rem 1rem;
+    padding-left: 2.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background-color: #f8fafc;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.75rem center;
+    color: #334155;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin: 0;
+}
+
+.search-function::placeholder {
+    color: #94a3b8;
 }
 
 .search-function:focus {
     outline: none;
-    border-color: #0202a3c1;
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.btn-add {
-    float: right;
-    margin: 0.3rem;
-    padding: 0.3rem;
-    width: 7rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
+/* Add Button */
+.add-button {
+    padding: 0.65rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
     cursor: pointer;
-}
-
-.btn-add:hover {
-    background-color: #0000FF;
-}
-
-.button-divs {
-    justify-content: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    margin: 0;
+    display: flex;
     align-items: center;
-    margin: 0 auto;
+    gap: 0.5rem;
+}
+
+.add-button:before {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.add-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+.add-button:active {
+    transform: translateY(0);
+}
+
+/* Table Styles */
+.custom-table {
+    margin-top: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    background-color: white;
+}
+
+.custom-table th {
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.custom-table th:first-child {
+    border-top-left-radius: 0.5rem;
+}
+
+.custom-table th:last-child {
+    border-top-right-radius: 0.5rem;
+}
+
+.custom-table td {
+    padding: 1rem 1.25rem;
+    color: #475569;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.custom-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8fafc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.custom-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.5rem;
+}
+
+.custom-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Action Buttons in Table */
+.custom-table td:last-child {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    border-bottom: none;
 }
 
 .action-button-rider {
-    justify-content: center;
-    padding: 0.3rem;
-    margin: 0.2rem;
-    width: 4.5rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
+    padding: 0.45rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #475569;
     cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.action-button-rider:hover {
-    background-color: #0000FF;
+.action-button-rider:first-child {
+    color: #3b82f6;
+    border-color: #3b82f6;
 }
 
+.action-button-rider:first-child:hover {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.action-button-rider:last-child {
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.action-button-rider:last-child:hover {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Empty State */
+.custom-table tbody tr td[colspan] {
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+/* Modal Styles */
 .custom-modal-overlay-rider {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    color: #101010;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .custom-modal-rider {
-    background-color: #ddd;
-    padding: 1.25rem;
-    border-radius: 0.2rem;
-    width: 30rem;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    width: 480px;
     max-width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease;
 }
 
-.custom-modal-rider input[type="text"], [type="password"] {
-    max-width: 30rem;
-    width: 95%;
-    margin: 0.15rem;
-    background-color: #fff;
-    color: #101010;
-    padding: 0.7rem;
-    border-radius: 0.2rem;
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.custom-modal-rider h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Form Elements in Modal */
+.custom-modal-rider form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.custom-modal-rider input[type="text"],
+.custom-modal-rider input[type="password"],
+.custom-modal-rider select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background-color: #f8fafc;
+    color: #334155;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.custom-modal-rider input[type="text"]:focus,
+.custom-modal-rider input[type="password"]:focus,
+.custom-modal-rider select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.custom-modal-rider input[type="text"]::placeholder,
+.custom-modal-rider input[type="password"]::placeholder {
+    color: #94a3b8;
+}
+
+.custom-modal-rider input[type="password"]:disabled {
+    background-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
 }
 
 .custom-modal-rider select {
-    width: 100%;
-    max-width: 30rem;
-    padding: 0.7rem;
-    margin-right: 0.5rem;
-    margin: 0.15rem;
-    border: 0.1rem solid #1a1a1a;
-    border-radius: 0.2rem;
-    background-color: #fff;
-    color: #2a2525b0;
-    font-size: 0.8rem;
     appearance: none;
-}
-
-.custom-modal-rider select:focus {
-    outline: none;
-    border: 0.1rem solid #1a1a1a;
-}
-
-.custom-modal-rider select option {
-    color: #101010;
-    background-color: #fff;
-}
-
-textarea.form-control {
-  resize: vertical;
-}
-
-.btn-action-rider {
-    float: right;
-    margin: 0.3rem;
-    padding: 0.3rem;
-    width: 7rem;
-    border-radius: 0.2rem;
-    background-color: #0202a3c1;
-    color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
     cursor: pointer;
 }
 
-.btn-action-rider {
-    background-color: #0000FF;
+.custom-modal-rider select option {
+    color: #334155;
+    background-color: #ffffff;
 }
 
+/* Modal Buttons */
+.custom-modal-rider form button {
+    margin-top: 0.5rem;
+}
+
+.btn-action-rider {
+    padding: 0.65rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-action-rider[type="submit"] {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.btn-action-rider[type="submit"]:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-action-rider[type="button"] {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.btn-action-rider[type="button"]:hover {
+    background-color: #e2e8f0;
+}
+
+/* Delete Modal Buttons */
+.modal-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.modal-buttons .btn-action-rider {
+    width: auto;
+    padding: 0.65rem 1.5rem;
+}
+
+.modal-buttons .btn-action-rider:first-child {
+    background-color: #ef4444;
+    color: white;
+}
+
+.modal-buttons .btn-action-rider:first-child:hover {
+    background-color: #dc2626;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+.modal-buttons .btn-action-rider:last-child {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.modal-buttons .btn-action-rider:last-child:hover {
+    background-color: #e2e8f0;
+}
+
+/* Message Modal */
+.custom-modal-rider p,
+.custom-modal-company p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.btn-action-company {
+    padding: 0.5rem 1rem;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    float: right;
+    margin-top: 1rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-action-company:hover {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+/* Success/Error Message Styling */
+.custom-modal-company[aria-live="polite"] p,
+.custom-modal-rider[aria-live="polite"] p {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 0 0 1rem 0;
+}
+
+.custom-modal-company[aria-live="polite"] p:first-child,
+.custom-modal-rider[aria-live="polite"] p:first-child {
+    background-color: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    color: #166534;
+}
+
+/* Reuse modal styles from company component */
+.custom-modal-overlay-company {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.custom-modal-company {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    width: 480px;
+    max-width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table-container {
+        padding: 1rem;
+        border-radius: 0;
+    }
+
+    .text-end-rider {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .search-function {
+        width: 100%;
+    }
+
+    .custom-modal-rider,
+    .custom-modal-company {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .custom-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .custom-table td:last-child {
+        flex-direction: column;
+    }
+
+    .action-button-rider {
+        width: 100%;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+    }
+
+    .modal-buttons .btn-action-rider {
+        width: 100%;
+    }
+}

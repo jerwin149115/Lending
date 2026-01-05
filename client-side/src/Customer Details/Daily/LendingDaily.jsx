@@ -12,7 +12,6 @@ function LendingDaily() {
     async function fetchCustomer() {
         try {
             const data = await getCustomerDaily(name, lending_company);
-
             const initializedData = data.map(customer => {
                 const lastPaymentDate = new Date(customer.last_payment_time);
                 const today = new Date();
